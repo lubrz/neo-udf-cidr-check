@@ -34,6 +34,12 @@ WHERE s.name CONTAINS 'web-server'
 RETURN s.ip, example.ipBelongsToNetwork(s.ip, '10.10.0.0/16') AS belongsToNetwork
 ```
 
-OUTPUT:
+### EXAMPLE-1:
 
-![Use UDF to check if IP address belongs to a Network](img/check_ipv4_address.png)"
+![Use UDF to check if IP address belongs to a Network](img/check_ipv4_address.png)
+
+### EXAMPLE-2:
+
+![Filter Nodes if value of node property IP belongs to a Network - 1](img/filter_nodes_by_ip.png)
+
+![Filter Nodes if value of node property IP belongs to a Network - 2](img/filter_nodes_by_ip_table.png)
