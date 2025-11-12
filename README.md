@@ -26,10 +26,11 @@ To view the IP addresses stored in your nodes, you can execute a query that disp
 
 ### 3. Using the UDF
 
-To utilize the UDF, perform a query to filter nodes based on a specific condition (e.g., matching labels and names) and then check if the associated IP address belongs to a specified network segment.
+The example below indicate how to utilize the UDF to check if a node property containing information on an ipv4 address belongs to a specific network. 
 
 ### EXAMPLE-1:
 
+In this example we perform a query to filter nodes based on a specific condition (e.g., matching labels and names) and then check if the associated IP address belongs to a specified network segment.
 To find all nodes with the label `:Server` that contain `web-server` in their `name` property and verify if their `ip` addresses belong to the network `10.10.0.0/16`, you would execute the following query:
 
 ```cypher
@@ -51,3 +52,50 @@ MATCH (s:Server) WHERE example.ipBelongsToNetwork(s.ip, '192.168.10.0/28') RETUR
 ![Filter Nodes if value of node property IP belongs to a Network - 1](img/filter_nodes_by_ip.png)
 
 ![Filter Nodes if value of node property IP belongs to a Network - 2](img/filter_nodes_by_ip_table.png)
+
+
+### EXAMPLE-3:
+
+For this example we create a more complex graph representing a large network. The dataset used for this example was extracted from the existing repository:
+
+https://github.com/neo4j-graph-examples/network-management
+
+For the scope of this Project a docker image was created to import the dataset and configure the UDF that will be used to filter Nodes based on the value of IP node property.
+
+To build and run this image locally execute the docker commands:
+
+```
+docker buildx build -t neo-udf-ip-check:1.0
+
+docker run -it -p 7474:7474 -p 7687:7687 --env=NEO4J_ACCEPT_LICENSE_AGREEMENT=yes --env=NEO4J_AUTH=neo4j/<PASSWORD> neo-udf-ip-check:1.0
+```
+
+Once the Container is Up and running, connect to it by opening a web browser and access Neo4j Browser via the URL `https://localhost:7474`
+
+Login using the credentials defined in the step above.
+
+![Login to Container](img/login_to_container.png)
+
+Once logged in we can review and familiarize ourselves with the nodes and relationships contained in the graph using the Cypher command:
+
+```cypher
+CALL db.schema.visualization();
+```
+
+![Schema Visualization](img/schema_visualization.png)
+
+
+We can then test the UDF to filter Interfaces based on whether their node property `ip` belongs to a specific network:
+
+*example*
+
+```cypher
+MATCH (i:Interface)-[r]-(d) WHERE example.ipBelongsToNetwork(i.ip,"10.4.1.0/28") RETURN i AS InterfaceIP, r as REL, d AS Device
+```
+
+OUTPUT
+
+![Filtered Nodes](img/filter_nodes.png)
+
+![Filtered Nodes - Table](img/filter_nodes_table.png)
+
