@@ -19,14 +19,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.3</version>
+            <version>6.0.1</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>1.9.3</version>
+            <version>6.0.1</version>
         </dependency>
         
         <!-- Neo4j Harness Dependency -->
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.24.1</version>
+            <version>3.27.6</version>
             <scope>test</scope>
         </dependency>
         
@@ -65,7 +65,7 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.11.0</version>
+              <version>3.14.1</version>
               <configuration>
                   <source>${maven.compiler.source}</source>
                   <target>${maven.compiler.target}</target>
@@ -75,18 +75,21 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-surefire-plugin</artifactId>
-              <version>3.1.2</version>
+              <version>3.5.4</version>
               <configuration>
                   <includes>
                       <include>**/*Test.java</include>
                       <include>**/*Tests.java</include>
                   </includes>
+                  <properties>
+                    <junit.platform.extension.autodetection.enabled>false</junit.platform.extension.autodetection.enabled>
+                  </properties>
               </configuration>
           </plugin>
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-jar-plugin</artifactId>
-              <version>3.3.0</version>
+              <version>3.4.2</version>
           </plugin>
       </plugins>
     </build>
